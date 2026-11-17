@@ -1,4 +1,5 @@
 #include "Entity.hpp"
+#include "World.hpp"
 #include "raylib.h"
 #include <iostream>
 
@@ -21,6 +22,7 @@ int main(void) {
 
     Texture2D demonSprite = LoadTexture("assets/demon.png");
     Entity demon = Entity("Demon", "Your biggest nightmare", demonSprite);
+    World world = World();
 
     //camera.offset = {1800/ 2.0f, 1000 / 2.0f};
     //camera.rotation = 0.0f;
@@ -34,8 +36,11 @@ int main(void) {
            // BeginMode2D(camera);
         
                 demon.handleUserInput();
-                DrawTexturePro(demonicWorld, src, dest, {0, 0}, 0.0f, WHITE);
+                //DrawTexturePro(demonicWorld, src, dest, {0, 0}, 0.0f, WHITE);
+                world.placeEntity(300, 300, demonicWorld);
+
                 DrawTexturePro(demon.texture, demon.source, demon.destination, demon.origin, demon.rotation, WHITE);
+                
                 //camera.target = {demon.destination.x, demon.destination.y};
         
 

@@ -34,6 +34,10 @@ class Entity {
         Vector2 origin; // for sprite -- optional. Worry about later.
         float rotation; // for sprite
         KeyPressedCounts keyCounts;
+
+    Entity() {
+        return;
+    }
         
     Entity(std::string name, std::string description,
            Texture2D texture) {
