@@ -6,6 +6,19 @@ int main(void) {
     InitWindow(1800, 1000, "First Prototype");
 
     //Camera2D camera;
+    Texture2D demonicWorld = LoadTexture("assets/demonicWorld.png");
+    Rectangle src;
+    src.height = 1672;
+    src.width = 941;
+    src.x = 0;
+    src.y = 0;
+
+    Rectangle dest;
+    dest.height = 1800;
+    dest.width = 1000;
+    dest.x = 0;
+    dest.y = 0;
+
     Texture2D demonSprite = LoadTexture("assets/demon.png");
     Entity demon = Entity("Demon", "Your biggest nightmare", demonSprite);
 
@@ -21,6 +34,7 @@ int main(void) {
            // BeginMode2D(camera);
         
                 demon.handleUserInput();
+                DrawTexturePro(demonicWorld, src, dest, {0, 0}, 0.0f, WHITE);
                 DrawTexturePro(demon.texture, demon.source, demon.destination, demon.origin, demon.rotation, WHITE);
                 //camera.target = {demon.destination.x, demon.destination.y};
         

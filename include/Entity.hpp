@@ -2,15 +2,15 @@
 #include "raylib.h"
 #include <math.h>
 
-constexpr size_t IMAGE_WIDTH = 1774;
-constexpr size_t IMAGE_HEIGHT = 887;
+constexpr size_t IMAGE_WIDTH = 2048;
+constexpr size_t IMAGE_HEIGHT = 1024;
 constexpr size_t IMAGE_COLUMNS = 8;
 constexpr size_t IMAGE_ROWS = 4;
 constexpr size_t WINDOW_WIDTH= 1800;
 constexpr size_t WINDOW_HEIGHT = 1000;
-constexpr float FRAME_HEIGHT = 221.75;
-constexpr float FRAME_WIDTH = 221.75;
-constexpr size_t SPEED = 5;
+constexpr float FRAME_HEIGHT = (float) IMAGE_HEIGHT/ IMAGE_ROWS;
+constexpr float FRAME_WIDTH = (float) IMAGE_WIDTH / IMAGE_COLUMNS;
+constexpr size_t SPEED = 20;
 
 struct KeyPressedCounts {
     size_t W;
