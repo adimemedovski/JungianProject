@@ -7,10 +7,12 @@ constexpr size_t IMAGE_HEIGHT = 1024;
 constexpr size_t IMAGE_COLUMNS = 8;
 constexpr size_t IMAGE_ROWS = 4;
 constexpr size_t WINDOW_WIDTH= 1800;
-constexpr size_t WINDOW_HEIGHT = 1000;
+constexpr size_t WINDOW_HEIGHT = 1800;
 constexpr float FRAME_HEIGHT = (float) IMAGE_HEIGHT/ IMAGE_ROWS;
 constexpr float FRAME_WIDTH = (float) IMAGE_WIDTH / IMAGE_COLUMNS;
-constexpr size_t SPEED = 20;
+constexpr size_t SPEED = 5;
+
+#pragma once
 
 struct KeyPressedCounts {
     size_t W;
@@ -25,6 +27,9 @@ struct KeyPressedCounts {
 
 class Entity {
     public:
+        int imageWidth;
+        int imageHeight;
+
         std::string name;  
         std::string description;     
 
@@ -38,7 +43,25 @@ class Entity {
     Entity() {
         return;
     }
-        
+
+    // For world objects, ex castles/grass.
+    Entity(Texture2D texture, std::string name, int imageWidth, int imageHeight, Rectangle destination) {
+        this -> texture = texture;
+        this -> name = name;
+        this -> imageWidth = imageWidth;
+        this -> imageHeight = imageHeight;
+        this -> destination = destination; // where the image will be placed
+
+        source.height = imageHeight;
+        source.width = imageWidth;
+        source.x = 0;
+        source.y = 0;
+
+        rotation = 0;
+        origin = {0, 0};
+    }
+    
+    // For characters that require animations.    
     Entity(std::string name, std::string description,
            Texture2D texture) {
         this -> texture = texture;
@@ -71,7 +94,7 @@ class Entity {
     }
 
     void handleUserInput() {
-        if (IsKeyPressed(KEY_W) && IsKeyPressed(KEY_A)) {
+        if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A)) {
             if (keyCounts.WA > 0) {
                 source.y = fmodf(source.y + FRAME_HEIGHT, IMAGE_HEIGHT);
                 keyCounts.WA++;
@@ -95,7 +118,7 @@ class Entity {
             }
         }
 
-        if (IsKeyPressed(KEY_W) && IsKeyPressed(KEY_D)) {
+        if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D)) {
             if (keyCounts.WD > 0) {
                 source.y = fmodf(source.y + FRAME_HEIGHT, IMAGE_HEIGHT);
                 keyCounts.WD++;
@@ -119,7 +142,7 @@ class Entity {
             }
         }
 
-        if (IsKeyPressed(KEY_A) && IsKeyPressed(KEY_S)) {
+        if (IsKeyDown(KEY_A) && IsKeyDown(KEY_S)) {
             if (keyCounts.AS > 0) {
                 source.y = fmodf(source.y + FRAME_HEIGHT, IMAGE_HEIGHT);
                 keyCounts.AS++;
@@ -143,7 +166,7 @@ class Entity {
             }
         }
 
-        if (IsKeyPressed(KEY_S) && IsKeyPressed(KEY_D)) {
+        if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D)) {
             if (keyCounts.SD > 0) {
                 source.y = fmodf(source.y + FRAME_HEIGHT, IMAGE_HEIGHT);
                 keyCounts.SD++;
@@ -234,6 +257,5 @@ class Entity {
                 destination.x += SPEED;
             }
         }
-
     }
 };

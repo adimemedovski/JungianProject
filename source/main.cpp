@@ -3,53 +3,54 @@
 #include "raylib.h"
 #include <iostream>
 
+/*
+
+    [
+        [1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 2, 1, 2, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1],
+    ]
+
+*/
+
+
 int main(void) {
-    InitWindow(1800, 1000, "First Prototype");
+    InitWindow(1800, 1800, "First Prototype");
 
-    //Camera2D camera;
-    Texture2D demonicWorld = LoadTexture("assets/demonicWorld.png");
-    Rectangle src;
-    src.height = 1672;
-    src.width = 941;
-    src.x = 0;
-    src.y = 0;
-
-    Rectangle dest;
-    dest.height = 1800;
-    dest.width = 1000;
-    dest.x = 0;
-    dest.y = 0;
+    size_t map[MAP_ROWS][MAP_COLUMNS];
+    for (int row = 0; row < MAP_ROWS; row++) {
+        for (int column = 0; column < MAP_COLUMNS; column++) {
+            map[row][column] = 1;
+        }
+    }
 
     Texture2D demonSprite = LoadTexture("assets/demon.png");
     Entity demon = Entity("Demon", "Your biggest nightmare", demonSprite);
-    World world = World();
 
-    //camera.offset = {1800/ 2.0f, 1000 / 2.0f};
-    //camera.rotation = 0.0f;
-    //camera.zoom = 0.0f;
+    Texture2D grassSprite = LoadTexture("assets/grass.png");
+    grassSprite.width = 1536;
+    grassSprite.height = 1024;
 
+    Texture2D castleSprite = LoadTexture("assets/castle.png");
+
+    map[10][10] = 0;
+
+    Texture2D *sprites = new Texture2D[2];
+    sprites[0] = castleSprite;
+    sprites[1] = grassSprite;
+    World world = World(map, sprites, 2);
+    
     SetTargetFPS(30);
     
     while (!WindowShouldClose()) {
         BeginDrawing();
             ClearBackground(BLACK);
-           // BeginMode2D(camera);
-        
                 demon.handleUserInput();
-                //DrawTexturePro(demonicWorld, src, dest, {0, 0}, 0.0f, WHITE);
-                world.placeEntity(300, 300, demonicWorld);
+                world.placeAllEntities();
 
                 DrawTexturePro(demon.texture, demon.source, demon.destination, demon.origin, demon.rotation, WHITE);
-                
-                //camera.target = {demon.destination.x, demon.destination.y};
-        
-
-                /* Begin Debug Info */
-                std::cout << "Source Coordinates: " << demon.source.x << ", " << demon.source.y << std::endl;
-                std::cout << "Destination Coordinates: " << demon.destination.x << ", " << demon.destination.y << std::endl;
-                /* End Debug Info  */
-
-            //EndMode2D();
+               
         EndDrawing();
     }
 }
